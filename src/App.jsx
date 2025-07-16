@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fetchCities = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://localhost:3000/cities?query=${query}`
