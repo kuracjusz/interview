@@ -12,14 +12,29 @@ type CharactersResponse = {
 
 export async function getCharacters({
   page = 1,
+  name = "",
+  status = "",
 }: {
   page?: number;
+  name?: string;
+  status?: string;
 }): Promise<CharactersResponse> {
   try {
     const response = await fetch(
-      `https://rickandmortyapi.com/api/character?page=${page}`
+      `https://rickandmortyapi.com/api/character?page=${page}&name=${name}&status=${status}`
     );
     const data = await response.json();
+    if (response.status === 404) {
+      return {
+        info: {
+          count: 0,
+          pages: 0,
+          next: null,
+          prev: null,
+        },
+        results: [],
+      };
+    }
     return data;
   } catch (error) {
     console.error("Error fetching characters:", error);
